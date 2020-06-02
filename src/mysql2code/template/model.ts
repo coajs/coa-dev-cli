@@ -20,14 +20,10 @@ export default new class extends MysqlCached<$ModelName$.Scheme> {
 
   async getList (where: { status: number }, where2: { search: string }) {
 
-    const finger = this.cacheFinger(where, where2)
-
-    const query: Query = qb => {
+    const list = await this.findIdList([where, where2], qb => {
       qb.filter(where)
       qb.search(['$modelName$Id'], where2.search)
-    }
-
-    const list = await this.findIdList(finger, query)
+    })
 
     await $.attach(list, '$modelName$Id', '', ids => this.mGetByIds(ids))
 
@@ -36,14 +32,10 @@ export default new class extends MysqlCached<$ModelName$.Scheme> {
 
   async getPageList (page: Page, where: { status: number }, where2: { search: string }) {
 
-    const finger = this.cacheFinger(where, where2)
-
-    const query: Query = qb => {
+    const list = await this.findIdPageList([where, where2], page, qb => {
       qb.filter(where)
       qb.search(['$modelName$Id'], where2.search)
-    }
-
-    const list = await this.findIdPageList(finger, page, query)
+    })
 
     await $.attach(list.list, '$modelName$Id', '', ids => this.mGetByIds(ids))
 

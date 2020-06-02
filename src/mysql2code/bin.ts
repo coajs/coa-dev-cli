@@ -1,17 +1,20 @@
 import { echo } from 'coa-echo'
 import { env } from 'coa-env'
+import { die } from 'coa-error'
 import { _ } from 'coa-helper'
 import { mysql } from 'coa-mysql'
 import { existsSync, writeFileSync } from 'fs'
 
 export default new class {
 
-  async getReplacer (ModelName: string, title: string, table_schema?: string) {
+  async getReplacer (ModelName: string, title: string, system: string = 'main') {
 
     const model_name = _.snakeCase(ModelName)
     const modelName = _.camelCase(ModelName)
 
-    const fields = await this.getFields(model_name, table_schema)
+    const database = env.mysql.databases[system] || die.hint(`缺少${system}子系统数据库配置`)
+
+    const fields = await this.getFields(database.database, model_name)
 
     const pick = [] as string[], postBody = [] as string[], scheme = [] as string[], postValue = [] as string[]
 
@@ -38,7 +41,7 @@ export default new class {
       .replace(/'\$pick_array\$'/g, pick.join(','))
   }
 
-  async getFields (table_name: string, table_schema = env.mysql.database) {
+  private async getFields (table_schema: string, table_name: string) {
     // 从数据库获取信息
     const ret = await mysql.io('columns')
       .withSchema('information_schema')
