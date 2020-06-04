@@ -199,7 +199,7 @@ export default <Action>{
 
       const $modelName$Id = ctx.required('$modelName$Id', '')
 
-      const result = await m$ModelName$.getById($modelName$Id) || die.hint('$模块名称$不存在')
+      const result = await m$ModelName$.checkById($modelName$Id)
 
       ctx.jsonOk(result)
     }

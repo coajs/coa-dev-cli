@@ -15,7 +15,7 @@ export declare namespace $ModelName$ {
 export default new class extends MysqlCached<$ModelName$.Scheme> {
 
   constructor () {
-    super({ name: '$ModelName$', title: '$ModelTitle$', scheme, pick, caches })
+    super({ name: '$ModelName$', title: '$ModelTitle$', prefix: '$modelPrefix$', scheme, pick, caches })
   }
 
   async getList (where: { status: number }, where2: { search: string }) {

@@ -12,6 +12,11 @@ export default new class {
     const model_name = _.snakeCase(ModelName)
     const modelName = _.camelCase(ModelName)
 
+    const modelPrefixArray = model_name.split('_')
+    const modelPrefixArrayLast = modelPrefixArray.pop() || ''
+    const modelPrefixString = modelPrefixArray.map(v => v.substr(0, 1)).join('')
+    const modelPrefix = modelPrefixString + modelPrefixArrayLast.substr(0, 3)
+
     const database = env.mysql.databases[system] || die.hint(`缺少${system}子系统数据库配置`)
 
     const fields = await this.getFields(database.database, model_name)
@@ -31,6 +36,7 @@ export default new class {
     return (str: string) => str
       .replace(/\/\/ @ts-ignore\n/g, '')
       .replace(/\$modelName\$/g, modelName)
+      .replace(/\$modelPrefix\$/g, modelPrefix)
       .replace(/\$ModelTitle\$/g, title)
       .replace(/\$ModelName\$/g, ModelName)
       .replace(/\$model_name\$/g, model_name)
