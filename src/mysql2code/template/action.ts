@@ -47,7 +47,7 @@ export default <Action>{
         // $postValue$
       }
 
-      const result = await m$ModelName$.updateById($modelName$Id, _.pickBy(value))
+      const result = await m$ModelName$.updateById($modelName$Id, value)
 
       ctx.jsonOk(result)
     }
@@ -117,7 +117,7 @@ export default <Action>{
     }
   },
 
-  '$model_name$.create': {
+  '$model_name$.ma.post': {
     options: {
       method: 'POST',
       name: '管理员创建$模块名称$',
@@ -140,7 +140,7 @@ export default <Action>{
     }
   },
 
-  '$model_name$.revise': {
+  '$model_name$.ma.put': {
     options: {
       method: 'PUT',
       name: '管理员修改$模块名称$信息',
@@ -165,7 +165,7 @@ export default <Action>{
     }
   },
 
-  '$model_name$.remove': {
+  '$model_name$.ma.del': {
     options: {
       method: 'DELETE',
       name: '管理员删除$模块名称$',
@@ -185,7 +185,7 @@ export default <Action>{
     }
   },
 
-  '$model_name$.detail': {
+  '$model_name$.ma.get': {
     options: {
       method: 'GET',
       name: '管理员获取某个$模块名称$详细信息',
@@ -205,7 +205,7 @@ export default <Action>{
     }
   },
 
-  '$model_name$.select': {
+  '$model_name$.ma.list': {
     options: {
       method: 'GET',
       name: '管理员获取$模块名称$列表',
