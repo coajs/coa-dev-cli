@@ -5,7 +5,7 @@ import { _ } from 'coa-helper'
 
 export default <Action>{
 
-  '$model_name$.post': {
+  '$model_name$.ua.post': {
     options: {
       method: 'POST',
       name: '用户创建$模块名称$',
@@ -28,7 +28,7 @@ export default <Action>{
     }
   },
 
-  '$model_name$.put': {
+  '$model_name$.ua.put': {
     options: {
       method: 'PUT',
       name: '用户修改$模块名称$信息',
@@ -53,7 +53,7 @@ export default <Action>{
     }
   },
 
-  '$model_name$.del': {
+  '$model_name$.ua.del': {
     options: {
       method: 'DELETE',
       name: '用户删除$模块名称$',
@@ -73,7 +73,7 @@ export default <Action>{
     }
   },
 
-  '$model_name$.get': {
+  '$model_name$.ua.get': {
     options: {
       method: 'GET',
       name: '用户获取某个$模块名称$详细信息',
@@ -93,7 +93,7 @@ export default <Action>{
     }
   },
 
-  '$model_name$.list': {
+  '$model_name$.ua.list': {
     options: {
       method: 'GET',
       name: '用户获取$模块名称$列表',
@@ -101,7 +101,7 @@ export default <Action>{
         status: { required: false, description: '状态，默认为全部', example: '' },
         search: { required: false, description: '关键词搜索', example: '' },
         last: { required: false, description: '[分页]上次ID，默认为0', example: '' },
-        rows: { required: false, description: '[分页]列表数量，默认为15', example: '' },
+        rows: { required: false, description: '[分页]列表数量，默认为20', example: '' },
       }
     },
     async default (ctx) {
@@ -111,7 +111,7 @@ export default <Action>{
       const status = ctx.have('status', 0)
       const search = ctx.have('search', '')
 
-      const result = await m$ModelName$.getPageList(ctx.page(), { status }, { search })
+      const result = await m$ModelName$.getSortList(ctx.pager(), { status }, { search })
 
       ctx.jsonOk(result)
     }
@@ -212,8 +212,8 @@ export default <Action>{
       param: {
         status: { required: false, description: '状态，默认为全部', example: '' },
         search: { required: false, description: '关键词搜索', example: '' },
-        last: { required: false, description: '[分页]上次ID，默认为0', example: '' },
-        rows: { required: false, description: '[分页]列表数量，默认为15', example: '' },
+        page: { required: false, description: '[分页]当前页码，默认为1', example: '' },
+        rows: { required: false, description: '[分页]列表数量，默认为20', example: '' },
       }
     },
     async default (ctx) {
@@ -223,7 +223,7 @@ export default <Action>{
       const status = ctx.have('status', 0)
       const search = ctx.have('search', '')
 
-      const result = await m$ModelName$.getPageList(ctx.page(), { status }, { search })
+      const result = await m$ModelName$.getViewList(ctx.pager(), { status }, { search })
 
       ctx.jsonOk(result)
     }

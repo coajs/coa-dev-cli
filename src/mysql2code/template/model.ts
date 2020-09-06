@@ -30,7 +30,19 @@ export default new class extends MysqlCached<$ModelName$.Scheme> {
     return list
   }
 
-  async getPageList (page: Page, where: { status: number }, where2: { search: string }) {
+  async getSortList (pager: Pager, where: { status: number }, where2: { search: string }) {
+
+    const res = await this.findIdPageList([where, where2], page, qb => {
+      qb.filter(where)
+      qb.search(['$modelName$Id'], where2.search)
+    })
+
+    await $.attach(res.list, '$modelName$Id', '', ids => this.mGetByIds(ids))
+
+    return res
+  }
+  
+  async getViewList (pager: Pager, where: { status: number }, where2: { search: string }) {
 
     const res = await this.findIdPageList([where, where2], page, qb => {
       qb.filter(where)
