@@ -21,15 +21,16 @@ export default new class {
 
     const fields = await this.getFields(database.database, model_name)
 
-    const pick = [] as string[], postBody = [] as string[], scheme = [] as string[], postValue = [] as string[]
+    const pick = [] as string[], requestBody = [] as string[], scheme = [] as string[], requestValues = [] as string[], formatRequestValues = [] as string[]
 
     _.forEach(fields, ({ name, comment, type, value }) => {
       const val = /(char|text)/.test(type) ? `'${value}'` : value
       scheme.push(`${name}:${val},`)
       if (name === 'created' || name === 'updated') return
       pick.push(`'${name}'`)
-      postBody.push(`${name}: {required: true, description: '${comment}', example: ''},`)
-      postValue.push(`${name}: ctx.required('${name}',${val}),`)
+      requestBody.push(`${name}: {required: true, description: '${comment}', example: ''},`)
+      requestValues.push(`const ${name} = ctx.required('${name}',${val})`)
+      formatRequestValues.push(name)
     })
 
     // 替换模板
@@ -42,8 +43,9 @@ export default new class {
       .replace(/\$model_name\$/g, model_name)
       .replace(/\$模块名称\$/g, title)
       .replace(/\/\/ \$scheme\$/g, scheme.join('\n'))
-      .replace(/\/\/ \$postBody\$/g, postBody.join('\n'))
-      .replace(/\/\/ \$postValue\$/g, postValue.join('\n'))
+      .replace(/\/\/ \$requestBody\$/g, requestBody.join('\n'))
+      .replace(/\/\/ \$requestValues\$/g, requestValues.join('\n'))
+      .replace(/\/\/ \$formatRequestValues\$/g, formatRequestValues.join(','))
       .replace(/'\$pick_array\$'/g, pick.join(','))
   }
 

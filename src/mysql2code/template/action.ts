@@ -10,16 +10,18 @@ export default <Action>{
       method: 'POST',
       name: '用户创建$模块名称$',
       param: {
-        // $postBody$
+        // $requestBody$
       }
     },
     async default (ctx) {
 
       ctx.uAuth.checkUserId()
 
+      // $requestValues$
+
       //构造$模块名称$信息
       const value = {
-        // $postValue$
+        // $formatRequestValues$
       }
 
       const $modelName$Id = await m$ModelName$.insert(value)
@@ -33,7 +35,7 @@ export default <Action>{
       method: 'PUT',
       name: '用户修改$模块名称$信息',
       param: {
-        // $postBody$
+        // $requestBody$
       }
     },
     async default (ctx) {
@@ -42,9 +44,11 @@ export default <Action>{
 
       const $modelName$Id = ctx.required('$modelName$Id', '')
 
+      // $requestValues$
+
       //构造$模块名称$信息
       const value = {
-        // $postValue$
+        // $formatRequestValues$
       }
 
       const result = await m$ModelName$.updateById($modelName$Id, value)
@@ -122,16 +126,18 @@ export default <Action>{
       method: 'POST',
       name: '管理员创建$模块名称$',
       param: {
-        // $postBody$
+        // $requestBody$
       }
     },
     async default (ctx) {
 
-      ctx.mAuth.checkId()
+      ctx.mAuth.checkManagerId()
+
+      // $requestValues$
 
       //构造$模块名称$信息
       const value = {
-        // $postValue$
+        // $formatRequestValues$
       }
 
       const $modelName$Id = await m$ModelName$.insert(value)
@@ -145,18 +151,20 @@ export default <Action>{
       method: 'PUT',
       name: '管理员修改$模块名称$信息',
       param: {
-        // $postBody$
+        // $requestBody$
       }
     },
     async default (ctx) {
 
-      ctx.mAuth.checkId()
+      ctx.mAuth.checkManagerId()
 
       const $modelName$Id = ctx.required('$modelName$Id', '')
 
+      // $requestValues$
+
       //构造$模块名称$信息
       const value = {
-        // $postValue$
+        // $formatRequestValues$
       }
 
       const result = await m$ModelName$.updateById($modelName$Id, value)
@@ -175,7 +183,7 @@ export default <Action>{
     },
     async default (ctx) {
 
-      ctx.mAuth.checkId()
+      ctx.mAuth.checkManagerId()
 
       const $modelName$Id = ctx.required('$modelName$Id', '')
 
@@ -195,7 +203,7 @@ export default <Action>{
     },
     async default (ctx) {
 
-      ctx.mAuth.checkId()
+      ctx.mAuth.checkManagerId()
 
       const $modelName$Id = ctx.required('$modelName$Id', '')
 
@@ -218,7 +226,7 @@ export default <Action>{
     },
     async default (ctx) {
 
-      ctx.mAuth.checkId()
+      ctx.mAuth.checkManagerId()
 
       const status = ctx.have('status', 0)
       const search = ctx.have('search', '')
