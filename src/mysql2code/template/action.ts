@@ -2,7 +2,7 @@ export default `
 import { gateway } from 'gateway/index'
 import m$ModelName$ from './m$ModelName$'
 
-gateway.register('$title$',{
+gateway.register('$ModelTitle$',{
 
   'userCompany.$model_name$.add': {
     options: {

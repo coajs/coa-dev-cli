@@ -5,6 +5,20 @@ import { MysqlBin } from 'coa-mysql'
 import { existsSync, mkdirSync, writeFileSync } from 'fs'
 import { resolve } from 'path'
 
+function toFile (render: (src: string) => string, src_string: string, dist: string) {
+
+  const dist_string = render(src_string)
+
+  if (existsSync(dist)) {
+    dist = dist.replace(/\.ts$/, '.new.ts')
+    echo.green('新文件: ' + dist)
+  } else {
+    echo.green('已生成: ' + dist)
+  }
+  writeFileSync(dist, dist_string)
+  return dist
+}
+
 export class Mysql2Code {
 
   private mysqlBin: MysqlBin
@@ -22,8 +36,8 @@ export class Mysql2Code {
 
     mkdirSync(resolve(dir, ModelName), { recursive: true })
 
-    this.toFile(replacer, require('./template/action').default, resolve(dir, `${ModelName}/action.ts`))
-    this.toFile(replacer, require('./template/model').default, resolve(dir, `${ModelName}/m${ModelName}.ts`))
+    toFile(replacer, require('./template/action').default, resolve(dir, `${ModelName}/a${ModelName}.ts`))
+    toFile(replacer, require('./template/model').default, resolve(dir, `${ModelName}/m${ModelName}.ts`))
 
   }
 
@@ -67,20 +81,6 @@ export class Mysql2Code {
       .replace(/\/\/ \$requestValues\$/g, requestValues.join('\n'))
       .replace(/\/\/ \$formatRequestValues\$/g, formatRequestValues.join(','))
       .replace(/'\$pick_array\$'/g, pick.join(','))
-  }
-
-  private toFile (render: (src: string) => string, src_string: string, dist: string) {
-
-    const dist_string = render(src_string)
-
-    if (existsSync(dist)) {
-      dist = dist.replace(/\.ts$/, '.new.ts')
-      echo.green('新文件: ' + dist)
-    } else {
-      echo.green('已生成: ' + dist)
-    }
-    writeFileSync(dist, dist_string)
-    return dist
   }
 
   private async getFields (table_schema: string, table_name: string) {
