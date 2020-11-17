@@ -16,20 +16,21 @@
   },
   "scripts": {
     "dev": "tsc -w",
+    "test": "NODE_PATH=run node dist/@test",
     "build": "rm -rf dist && tsc && cp package.json dist",
     "npm-publish": "yarn build && yarn version --patch && cp package.json README.md dist && cd dist && npm publish"
   },
   "dependencies": {},
   "devDependencies": {
-    "@types/node": "^14.6.4",
+    "@types/node": "^14.14.7",
     "coa-echo": "^1.0.8",
-    "coa-env": "^1.0.2",
-    "coa-error": "^1.0.4",
+    "coa-env": "^1.0.3",
+    "coa-error": "^1.1.2",
     "coa-helper": "^1.0.6",
-    "coa-mysql": "^1.0.14",
-    "coa-redis": "^1.0.18",
+    "coa-mysql": "^1.2.16",
+    "coa-redis": "^1.2.4",
     "coa-secure": "^1.0.3",
-    "typescript": "^4.0.2"
+    "typescript": "^4.0.5"
   },
   "peerDependencies": {
     "coa-mysql": "1"
