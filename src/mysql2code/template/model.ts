@@ -15,7 +15,7 @@ export declare namespace $ModelName$ {
 export default new class extends MysqlCached<$ModelName$.Scheme> {
 
   constructor () {
-    super({ database: 'main', name: '$ModelName$', title: '$ModelTitle$', prefix: '$modelPrefix$', scheme, pick, caches })
+    super({  name: '$ModelName$', title: '$ModelTitle$', prefix: '$modelPrefix$', scheme, pick, caches })
   }
 
   async getList (where: { status: number }, where2: { search: string }) {
@@ -32,7 +32,7 @@ export default new class extends MysqlCached<$ModelName$.Scheme> {
 
   async getSortList (pager: Pager, where: { status: number }, where2: { search: string }) {
 
-    const res = await this.findIdPageList([where, where2], page, qb => {
+    const res = await this.findIdSortList([where, where2], pager, qb => {
       qb.filter(where)
       qb.search(['$modelName$Id'], where2.search)
     })
@@ -44,7 +44,7 @@ export default new class extends MysqlCached<$ModelName$.Scheme> {
   
   async getViewList (pager: Pager, where: { status: number }, where2: { search: string }) {
 
-    const res = await this.findIdPageList([where, where2], page, qb => {
+    const res = await this.findIdViewList([where, where2], pager, qb => {
       qb.filter(where)
       qb.search(['$modelName$Id'], where2.search)
     })

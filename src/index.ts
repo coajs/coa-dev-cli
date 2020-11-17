@@ -1,4 +1,3 @@
-import file2ts from './file2ts'
-import mysql2code from './mysql2code'
+import { Mysql2Code } from './mysql2code/Mysql2Code'
 
-export { file2ts, mysql2code }
+export default { Mysql2Code }
