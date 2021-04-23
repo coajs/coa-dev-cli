@@ -1,4 +1,4 @@
-import { MysqlBin, MysqlUuid } from 'coa-mysql'
+import { MysqlBin } from 'coa-mysql'
 
 const config = {
   host: '127.0.0.1',

@@ -36,8 +36,8 @@ export class Mysql2Code {
 
     mkdirSync(resolve(dir, ModelName), { recursive: true })
 
-    toFile(replacer, require('./template/action').default, resolve(dir, `${ModelName}/a${ModelName}.ts`))
-    toFile(replacer, require('./template/model').default, resolve(dir, `${ModelName}/m${ModelName}.ts`))
+    toFile(replacer, require('./template/action').default, resolve(dir, ModelName, `a${ModelName}.ts`))
+    toFile(replacer, require('./template/model').default, resolve(dir, ModelName, `m${ModelName}.ts`))
 
   }
 
