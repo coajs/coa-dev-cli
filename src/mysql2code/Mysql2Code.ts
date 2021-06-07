@@ -5,8 +5,7 @@ import { MysqlBin } from 'coa-mysql'
 import { existsSync, mkdirSync, writeFileSync } from 'fs'
 import { resolve } from 'path'
 
-function toFile (render: (src: string) => string, src_string: string, dist: string) {
-
+function toFile(render: (src: string) => string, src_string: string, dist: string) {
   const dist_string = render(src_string)
 
   if (existsSync(dist)) {
@@ -20,16 +19,14 @@ function toFile (render: (src: string) => string, src_string: string, dist: stri
 }
 
 export class Mysql2Code {
+  private readonly mysqlBin: MysqlBin
 
-  private mysqlBin: MysqlBin
-
-  constructor (mysqlBin: MysqlBin) {
+  constructor(mysqlBin: MysqlBin) {
     this.mysqlBin = mysqlBin
   }
 
   // 自动生成数据模块
-  async generate (dir: string, ModelName: string, title: string, schema?: string) {
-
+  async generate(dir: string, ModelName: string, title: string, schema?: string) {
     ModelName = _.upperFirst(_.camelCase(ModelName))
 
     const replacer = await this.getReplacer(ModelName, title, schema)
@@ -38,24 +35,26 @@ export class Mysql2Code {
 
     toFile(replacer, require('./template/action').default, resolve(dir, ModelName, `a${ModelName}.ts`))
     toFile(replacer, require('./template/model').default, resolve(dir, ModelName, `m${ModelName}.ts`))
-
   }
 
-  private async getReplacer (ModelName: string, title: string, system: string = 'main') {
-
+  private async getReplacer(ModelName: string, title: string, system: string = 'main') {
     const model_name = _.snakeCase(ModelName)
     const modelName = _.camelCase(ModelName)
 
     const modelPrefixArray = model_name.split('_')
-    const modelPrefixArrayLast = modelPrefixArray.pop() || ''
-    const modelPrefixString = modelPrefixArray.map(v => v.substr(0, 1)).join('')
+    const modelPrefixArrayLast = modelPrefixArray.pop() ?? ''
+    const modelPrefixString = modelPrefixArray.map((v) => v.substr(0, 1)).join('')
     const modelPrefix = modelPrefixString + modelPrefixArrayLast.substr(0, 3)
 
     const database = this.mysqlBin.config.databases[system] || die.hint(`缺少${system}子系统数据库配置`)
 
     const fields = await this.getFields(database.database, model_name)
 
-    const pick = [] as string[], requestBody = [] as string[], scheme = [] as string[], requestValues = [] as string[], formatRequestValues = [] as string[]
+    const pick = [] as string[]
+    const requestBody = [] as string[]
+    const scheme = [] as string[]
+    const requestValues = [] as string[]
+    const formatRequestValues = [] as string[]
 
     _.forEach(fields, ({ name, comment, type, value }) => {
       const val = /(char|text)/.test(type) ? `'${value}'` : value
@@ -68,24 +67,26 @@ export class Mysql2Code {
     })
 
     // 替换模板
-    return (str: string) => str
-      .replace(/\/\/ @ts-ignore\n/g, '')
-      .replace(/\$modelName\$/g, modelName)
-      .replace(/\$modelPrefix\$/g, modelPrefix)
-      .replace(/\$ModelTitle\$/g, title)
-      .replace(/\$ModelName\$/g, ModelName)
-      .replace(/\$model_name\$/g, modelName)
-      .replace(/\$模块名称\$/g, title)
-      .replace(/\/\/ \$scheme\$/g, scheme.join('\n'))
-      .replace(/\/\/ \$requestBody\$/g, requestBody.join('\n'))
-      .replace(/\/\/ \$requestValues\$/g, requestValues.join('\n'))
-      .replace(/\/\/ \$formatRequestValues\$/g, formatRequestValues.join(','))
-      .replace(/'\$pick_array\$'/g, pick.join(','))
+    return (str: string) =>
+      str
+        .replace(/\/\/ @ts-ignore\n/g, '')
+        .replace(/\$modelName\$/g, modelName)
+        .replace(/\$modelPrefix\$/g, modelPrefix)
+        .replace(/\$ModelTitle\$/g, title)
+        .replace(/\$ModelName\$/g, ModelName)
+        .replace(/\$model_name\$/g, modelName)
+        .replace(/\$模块名称\$/g, title)
+        .replace(/\/\/ \$scheme\$/g, scheme.join('\n'))
+        .replace(/\/\/ \$requestBody\$/g, requestBody.join('\n'))
+        .replace(/\/\/ \$requestValues\$/g, requestValues.join('\n'))
+        .replace(/\/\/ \$formatRequestValues\$/g, formatRequestValues.join(','))
+        .replace(/'\$pick_array\$'/g, pick.join(','))
   }
 
-  private async getFields (table_schema: string, table_name: string) {
+  private async getFields(table_schema: string, table_name: string) {
     // 从数据库获取信息
-    const ret = await this.mysqlBin.io('columns')
+    const ret = await this.mysqlBin
+      .io('columns')
       .withSchema('information_schema')
       .select('column_name as name', 'data_type as type', 'column_comment as comment', 'column_default as value')
       .where({ table_schema, table_name })
@@ -97,5 +98,4 @@ export class Mysql2Code {
     }
     return ret
   }
-
 }
