@@ -18,6 +18,7 @@
     "dev": "tsc -w",
     "generate": "NODE_PATH=dist node dist/generate",
     "test": "NODE_PATH=run node dist/@test",
+    "lint": "echo lint",
     "build": "rm -rf dist && tsc && cp package.json *.md dist && rm -rf dist/@test dist/generate"
   },
   "dependencies": {},
