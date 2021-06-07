@@ -1,6 +1,6 @@
 export default `
 import { $ } from 'coa-helper'
-import { MysqlCached } from 'coa-mysql'
+import { MysqlCached } from 'app/cMysql'
 
 const scheme = {
   // $scheme$

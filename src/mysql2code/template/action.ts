@@ -4,7 +4,7 @@ import m$ModelName$ from './m$ModelName$'
 
 gateway.register('$ModelTitle$',{
 
-  'userCompany.$model_name$.add': {
+  'userCompany.$model_name$.create': {
     options: {
       method: 'POST',
       name: '用户创建$模块名称$',
@@ -120,7 +120,7 @@ gateway.register('$ModelTitle$',{
     }
   },
 
-  'managerCompany.$model_name$.add': {
+  'managerCompany.$model_name$.create': {
     options: {
       method: 'POST',
       name: '管理员创建$模块名称$',
