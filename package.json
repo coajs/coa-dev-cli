@@ -21,7 +21,7 @@
     "lint": "eslint .",
     "prettier": "prettier -w .",
     "build": "rm -rf dist && tsc && cp package.json *.md dist && rm -rf dist/@test",
-    "sync": "curl -X PUT 'https://npm.taobao.org/sync/coa-dev-cli?sync_upstream=true'"
+    "sync": "curl -X PUT 'https://npmmirror.com/sync/coa-dev-cli?sync_upstream=true'"
   },
   "dependencies": {},
   "devDependencies": {
