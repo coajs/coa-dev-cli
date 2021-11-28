@@ -15,7 +15,7 @@
     "url": "https://github.com/coajs/coa-dev-cli.git"
   },
   "scripts": {
-    "dev": "tsc -w",
+    "tsc": "tsc -w",
     "generate": "NODE_PATH=dist node dist/generate",
     "test": "NODE_PATH=run node dist/@test",
     "lint": "eslint .",
