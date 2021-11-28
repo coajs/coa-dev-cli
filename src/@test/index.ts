@@ -1,6 +1,8 @@
 import { $ } from 'coa-helper'
-import test_mysql2code from './test_mysql2code'
+import { MysqlToCode, MysqlToDocs } from '..'
+import mysql from './cMySQL'
 
 $.run(async () => {
-  await test_mysql2code.testMysql2Code()
+  await new MysqlToCode(mysql.bin).generate('src/service/markGenerate', 'MarkGenerate', '码生成记录')
+  await new MysqlToDocs(mysql.bin).generate(mysql.database, 'database.md')
 })

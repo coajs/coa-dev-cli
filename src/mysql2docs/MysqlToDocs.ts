@@ -2,7 +2,9 @@ import { $, _ } from 'coa-helper'
 import { MysqlBin } from 'coa-mysql'
 import { writeFileSync } from 'fs'
 
-export class Mysql2Docs {
+const LF = '\n'
+
+export class MysqlToDocs {
   private readonly mysqlBin: MysqlBin
 
   constructor(mysqlBin: MysqlBin) {
@@ -10,7 +12,7 @@ export class Mysql2Docs {
   }
 
   // 自动生成数据库文档
-  async autoGenerateMarkdown(database: string, file: string, title?: string): Promise<void> {
+  async generate(database: string, file: string, title = ''): Promise<void> {
     const pathMarkdown = file
 
     const where = { table_schema: database }

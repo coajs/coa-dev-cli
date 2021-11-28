@@ -1,11 +1,7 @@
 import { readdirSync, readFileSync, writeFileSync } from 'fs'
 import { resolve } from 'path'
 
-export class File2Ts {
-  option = () => {
-    // option
-  }
-
+export class FileToTs {
   convert(dir: string, encoding: 'base64' | 'hex') {
     readdirSync(dir).forEach((file) => {
       if (file.endsWith('.ts')) return

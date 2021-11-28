@@ -1,2 +1,3 @@
-export { File2Ts } from './file2ts/File2Ts'
-export { Mysql2Code } from './mysql2code/Mysql2Code'
+export { FileToTs } from './file2ts/FileToTs'
+export { MysqlToCode } from './mysql2code/MysqlToCode'
+export { MysqlToDocs } from './mysql2docs/MysqlToDocs'

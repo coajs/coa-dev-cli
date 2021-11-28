@@ -19,7 +19,7 @@ function toFile(render: (src: string) => string, src_string: string, dist: strin
   return dist
 }
 
-export class Mysql2Code {
+export class MysqlToCode {
   private readonly mysqlBin: MysqlBin
 
   constructor(mysqlBin: MysqlBin) {
