@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 import { echo } from 'coa-echo'
 import { die } from 'coa-error'
 import { _ } from 'coa-helper'
@@ -37,7 +38,7 @@ export class Mysql2Code {
     toFile(replacer, require('./template/model').default, resolve(dir, ModelName, `m${ModelName}.ts`))
   }
 
-  private async getReplacer(ModelName: string, title: string, system: string = 'main') {
+  private async getReplacer(ModelName: string, title: string, system = 'main') {
     const model_name = _.snakeCase(ModelName)
     const modelName = _.camelCase(ModelName)
 

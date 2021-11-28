@@ -2,7 +2,9 @@ import { readdirSync, readFileSync, writeFileSync } from 'fs'
 import { resolve } from 'path'
 
 export class File2Ts {
-  option = () => {}
+  option = () => {
+    // option
+  }
 
   convert(dir: string, encoding: 'base64' | 'hex') {
     readdirSync(dir).forEach((file) => {
